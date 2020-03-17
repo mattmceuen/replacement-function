@@ -1,0 +1,44 @@
+# Copyright 2019 The Kubernetes Authors.
+# SPDX-License-Identifier: Apache-2.0
+apiVersion: airshipit.org/v1alpha1
+kind: VariableCatalogue
+metadata:
+  name: label-catalogue
+  annotation:
+    config.kubernetes.io/local-config: "true"
+spec:
+  environmentLabel: prod
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc
+  labels:
+    environment: dev
+spec:
+  clusterIP: None
+---
+apiVersion: someteam.example.com/v1
+kind: ReplacementTransformer
+metadata:
+  name: notImportantHere
+  annotations:
+    config.kubernetes.io/function: |
+      container:
+        image: quay.io/airshipit/replacement-function:v0.1.0
+replacements:
+- source:
+    objref:
+      apiversion: airshipit.org/v1alpha1
+      kind: VariableCatalogue
+      name: label-catalogue
+    fieldref: spec.environmentLabel
+  target:
+    objref:
+      apiversion: airshipit.org/v1alpha1
+      kind: Service
+      name: svc
+    fieldrefs:
+    - metadata.labels.environment
+
+
