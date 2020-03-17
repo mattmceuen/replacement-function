@@ -13,7 +13,7 @@ The function is implemented as an [image](image), and built using `make image`.
 
 The function is implemented as a go program, which a configuration of
 replacement sources and targets, and applies them to the other YAML
-documents that are processed. The config file  ReplacementTransformer` syntax,
+documents that are processed. The config file  `ReplacementTransformer` syntax,
 but is annotated with a `config.kubernetes.io/function` container image.
 
 ### Function configuration
